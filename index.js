@@ -10,14 +10,14 @@ const { LINE_COLOR, HOST, PORT, DOMAIN, BOT_NAME, SLACK_URL } = process.env
 const app = new express()
 
 const ACTION_TYPES = {
-  1: '追加',
-  2: '更新',
-  3: 'コメント',
-  5: 'wiki追加',
-  6: 'wiki更新',
+  1: 'Add to',
+  2: 'Update',
+  3: 'Comment',
+  5: 'Add wiki',
+  6: 'Update wiki',
   11: 'svn Commit',
   12: 'Git Push',
-  14: '課題まとめて更新',
+  14: 'Issue updated collectively',
   18: 'Submit Pull Request',
   19: 'Update Pull Request',
   20: 'Comment Pull Request'
@@ -71,7 +71,7 @@ function createPayload (channel, body) {
   return {
     channel: channel,
     username: BOT_NAME,
-    text: "BackLogに更新がありました。",
+    text: "BackLog Update",
     attachments: [
       {
         "color": LINE_COLOR || '#42ce9f',
@@ -84,22 +84,22 @@ function createPayload (channel, body) {
             "short": true
           },
           {
-            "title": "イベント",
+            "title": "Event",
             "value": ACTION_TYPES[body.type],
             "short": true
           },
           {
-            title: "作成者",
+            title: "Author",
             value: body.createdUser.name,
             short: true
           },
           {
-            title: "担当者",
+            title: "User",
             value: body.content.assignee ? body.content.assignee.name : '',
             short: true
           },
           {
-            "title": "内容",
+            "title": "Contents",
             "value": getComment(body),
             "short": false
           }
